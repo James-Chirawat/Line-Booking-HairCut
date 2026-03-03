@@ -1,0 +1,21 @@
+-- ─────────────────────────────────────────
+-- Supabase Schema: barbershop-bot
+-- ─────────────────────────────────────────
+
+create table bookings (
+  id            uuid        default gen_random_uuid() primary key,
+  user_id       text        not null,
+  booking_date  date        not null,
+  booking_time  text        not null,
+  status        text        not null default 'confirmed'
+                            check (status in ('confirmed', 'cancelled')),
+  created_at    timestamptz default now()
+);
+
+create index idx_bookings_user_status  on bookings (user_id, status);
+create index idx_bookings_date         on bookings (booking_date);
+
+-- ป้องกัน double booking
+create unique index idx_no_double_booking
+  on bookings (booking_date, booking_time)
+  where status = 'confirmed';
