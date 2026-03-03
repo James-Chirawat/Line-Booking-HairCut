@@ -179,4 +179,77 @@ function buildConfirmFlex(date, time) {
   };
 }
 
-module.exports = { buildDateFlex, buildTimeFlex, buildConfirmFlex };
+function buildMyBookingFlex(date, time) {
+  const displayDate = new Date(date + 'T00:00:00').toLocaleDateString('th-TH', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+  });
+
+  const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=16.7479163,100.1893587';
+
+  return {
+    type: 'flex',
+    altText: '📋 คิวของคุณ',
+    contents: {
+      type: 'bubble',
+      size: 'mega',
+      hero: {
+        type: 'box', layout: 'vertical', backgroundColor: THEME.navy, paddingAll: '28px',
+        contents: [
+          { type: 'text', text: '📋', size: '4xl', align: 'center' },
+          { type: 'text', text: 'คิวของคุณ', color: '#ffffff', size: 'xl', weight: 'bold', align: 'center', margin: 'md' },
+          { type: 'text', text: 'ร้าน The Cut', color: THEME.gold, size: 'sm', align: 'center', margin: 'xs' },
+        ],
+      },
+      body: {
+        type: 'box', layout: 'vertical', spacing: 'md', paddingAll: '20px',
+        contents: [
+          { type: 'text', text: '📋 รายละเอียดการจอง', weight: 'bold', size: 'md', color: '#333333' },
+          { type: 'separator', margin: 'sm' },
+          {
+            type: 'box', layout: 'horizontal', margin: 'md',
+            contents: [
+              { type: 'text', text: '📅 วันที่', color: '#888888', flex: 2, size: 'sm' },
+              { type: 'text', text: displayDate, flex: 5, wrap: true, size: 'sm', weight: 'bold' },
+            ],
+          },
+          {
+            type: 'box', layout: 'horizontal', margin: 'sm',
+            contents: [
+              { type: 'text', text: '⏰ เวลา', color: '#888888', flex: 2, size: 'sm' },
+              { type: 'text', text: `${time} น.`, flex: 5, weight: 'bold', color: THEME.teal, size: 'lg' },
+            ],
+          },
+          { type: 'separator', margin: 'md' },
+          {
+            type: 'box', layout: 'horizontal', margin: 'md', spacing: 'sm',
+            contents: [
+              { type: 'text', text: '📍', size: 'sm', flex: 0 },
+              {
+                type: 'box', layout: 'vertical', flex: 1,
+                contents: [
+                  { type: 'text', text: 'ร้าน The Cut (มหาวิทยาลัยนเรศวร)', size: 'sm', weight: 'bold', color: '#333333', wrap: true },
+                  { type: 'text', text: 'กรุณามาก่อนเวลานัด 5 นาที', size: 'xs', color: '#888888', margin: 'xs' },
+                ],
+              },
+            ],
+          },
+          {
+            type: 'button',
+            action: { type: 'uri', label: '🗺 นำทางไปร้าน', uri: MAPS_URL },
+            style: 'primary', color: '#4285F4', height: 'sm', margin: 'sm',
+          },
+        ],
+      },
+      footer: {
+        type: 'box', layout: 'vertical', spacing: 'sm',
+        contents: [{
+          type: 'button',
+          action: { type: 'postback', label: '❌ ยกเลิกคิวนี้', data: 'action=cancel', displayText: 'ยกเลิกคิว' },
+          style: 'secondary', height: 'sm',
+        }],
+      },
+    },
+  };
+}
+
+module.exports = { buildDateFlex, buildTimeFlex, buildConfirmFlex, buildMyBookingFlex };

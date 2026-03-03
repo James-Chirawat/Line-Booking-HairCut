@@ -4,7 +4,7 @@
  */
 const { reply } = require('../helpers/reply');
 const { getActiveBooking } = require('../db/bookings');
-const { buildDateFlex, buildConfirmFlex } = require('../flex/booking');
+const { buildDateFlex, buildMyBookingFlex } = require('../flex/booking');
 const { buildMainMenu } = require('../flex/welcome');
 const { buildHelpFlex } = require('../flex/help');
 
@@ -20,7 +20,7 @@ async function showMyBooking(replyToken, userId) {
       buildMainMenu(),
     ]);
   }
-  return reply(replyToken, buildConfirmFlex(booking.booking_date, booking.booking_time));
+  return reply(replyToken, buildMyBookingFlex(booking.booking_date, booking.booking_time));
 }
 
 async function showHelp(replyToken, _userId) {

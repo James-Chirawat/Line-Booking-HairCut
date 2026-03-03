@@ -6,7 +6,7 @@ const { reply } = require('../helpers/reply');
 const { startBooking, showMyBooking, showHelp } = require('./commands');
 const { getActiveBooking, getBookedSlots, isSlotBooked, saveBooking, cancelBooking } = require('../db/bookings');
 const { buildWelcome, buildMainMenu } = require('../flex/welcome');
-const { buildTimeFlex, buildConfirmFlex } = require('../flex/booking');
+const { buildTimeFlex, buildConfirmFlex, buildMyBookingFlex } = require('../flex/booking');
 
 // In-memory state สำหรับ multi-step flow
 // Production ควรเอาลง Redis หรือ Supabase
@@ -70,7 +70,7 @@ async function handlePostback(replyToken, userId, params) {
       userState.delete(userId);
       return reply(replyToken, [
         { type: 'text', text: '⚠️ คุณมีคิวอยู่แล้วครับ ยกเลิกคิวเดิมก่อนถึงจะจองใหม่ได้นะ' },
-        buildConfirmFlex(existing.booking_date, existing.booking_time),
+        buildMyBookingFlex(existing.booking_date, existing.booking_time),
       ]);
     }
     // เช็คว่า slot นี้ว่างอยู่มั้ย (ป้องกัน race condition)
