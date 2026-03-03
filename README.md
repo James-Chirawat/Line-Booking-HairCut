@@ -72,7 +72,3 @@ node index.js
 | `LINE_CHANNEL_ACCESS_TOKEN` | Channel Access Token |
 | `SUPABASE_URL` | Supabase Project URL |
 | `SUPABASE_KEY` | Supabase Anon/Public Key |
-
-## License
-
-MIT
